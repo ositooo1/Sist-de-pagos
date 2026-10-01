@@ -1,0 +1,23 @@
+﻿{% extends "base.html" %}
+{% block title %}Mis pedidos{% endblock %}
+{% block content %}
+<h2>Mis pedidos</h2>
+<table class="table table-striped align-middle">
+    <thead><tr><th>#</th><th>Fecha</th><th>Total</th><th>Estado</th><th></th></tr></thead>
+    <tbody>
+    {% for p in pedidos %}
+        <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.fecha.strftime("%d/%m/%Y %H:%M") }}</td>
+            <td>${{ "%.2f"|format(p.total) }}</td>
+            <td><span class="badge text-bg-secondary">{{ p.estado }}</span></td>
+            <td class="text-end">
+                <a href="{{ url_for('orders.detalle', id=p.id) }}" class="btn btn-sm btn-outline-primary">Ver</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="5" class="text-center text-muted">Todavía no hiciste pedidos.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

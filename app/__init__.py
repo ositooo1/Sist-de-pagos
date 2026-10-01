@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+﻿from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import Config
@@ -21,9 +21,11 @@ def create_app():
     from app import models
     from app.routes.auth import auth_bp
     from app.routes.products import products_bp
+    from app.routes.orders import orders_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(products_bp)
+    app.register_blueprint(orders_bp)
 
     with app.app_context():
         db.create_all()

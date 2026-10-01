@@ -1,0 +1,30 @@
+﻿{% extends "base.html" %}
+{% block title %}Pedido #{{ pedido.id }}{% endblock %}
+{% block content %}
+<h2>Pedido #{{ pedido.id }} <span class="badge text-bg-secondary">{{ pedido.estado }}</span></h2>
+<p class="text-muted">{{ pedido.fecha.strftime("%d/%m/%Y %H:%M") }}</p>
+
+<table class="table">
+    <thead><tr><th>Producto</th><th>Cantidad</th><th>Precio unit.</th><th>Subtotal</th></tr></thead>
+    <tbody>
+    {% for it in pedido.items %}
+        <tr>
+            <td>{{ it.producto.nombre }}</td>
+            <td>{{ it.cantidad }}</td>
+            <td>${{ "%.2f"|format(it.precio_unitario) }}</td>
+            <td>${{ "%.2f"|format(it.subtotal()) }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot><tr><th colspan="3" class="text-end">Total</th><th>${{ "%.2f"|format(pedido.total) }}</th></tr></tfoot>
+</table>
+
+{% if pedido.estado == "pendiente" %}
+<form method="POST" action="{{ url_for('orders.cancelar', id=pedido.id) }}" class="d-inline"
+      onsubmit="return confirm('¿Cancelar el pedido?');">
+    {{ form.hidden_tag() }}
+    <button class="btn btn-outline-danger">Cancelar pedido</button>
+</form>
+{% endif %}
+<a href="{{ url_for('orders.listar') }}" class="btn btn-link">Volver</a>
+{% endblock %}
