@@ -20,8 +20,10 @@ def create_app():
 
     from app import models
     from app.routes.auth import auth_bp
+    from app.routes.products import products_bp
 
     app.register_blueprint(auth_bp)
+    app.register_blueprint(products_bp)
 
     with app.app_context():
         db.create_all()

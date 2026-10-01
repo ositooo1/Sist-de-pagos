@@ -1,6 +1,22 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
+from wtforms import (
+    StringField,
+    PasswordField,
+    SubmitField,
+    TextAreaField,
+    DecimalField,
+    IntegerField,
+)
+from wtforms.validators import (
+    DataRequired,
+    Email,
+    EqualTo,
+    Length,
+    ValidationError,
+    NumberRange,
+    Optional,
+    InputRequired,
+)
 from app.models import Usuario
 
 
@@ -31,3 +47,32 @@ class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Contraseña", validators=[DataRequired()])
     submit = SubmitField("Ingresar")
+
+
+class ProductoForm(FlaskForm):
+    """Formulario para crear y editar productos."""
+
+    nombre = StringField("Nombre", validators=[DataRequired(), Length(max=100)])
+    descripcion = TextAreaField("Descripción", validators=[Optional(), Length(max=500)])
+    precio = DecimalField(
+        "Precio",
+        places=2,
+        validators=[
+            InputRequired(),
+            NumberRange(min=0.01, message="El precio debe ser mayor a 0"),
+        ],
+    )
+    stock = IntegerField(
+        "Stock",
+        validators=[
+            InputRequired(),
+            NumberRange(min=0, message="El stock no puede ser negativo"),
+        ],
+    )
+    submit = SubmitField("Guardar")
+
+
+class EliminarForm(FlaskForm):
+    """Formulario vacío: solo aporta el token CSRF para borrar con POST."""
+
+    submit = SubmitField("Eliminar")

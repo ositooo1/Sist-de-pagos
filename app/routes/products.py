@@ -40,7 +40,7 @@ def nuevo():
 def editar(id):
     """Edita un producto existente."""
     producto = db.get_or_404(Producto, id)
-    form = ProductoForm(obj=producto)  # precarga los datos en el formulario
+    form = ProductoForm(obj=producto)
     if form.validate_on_submit():
         form.populate_obj(producto)
         db.session.commit()

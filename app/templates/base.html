@@ -16,6 +16,9 @@
           >Simulador de Pagos</a
         >
         <div class="navbar-nav ms-auto">
+          <a class="nav-link" href="{{ url_for('products.listar') }}"
+            >Productos</a
+          >
           {% if current_user.is_authenticated %}
           <span class="navbar-text me-3">Hola, {{ current_user.nombre }}</span>
           <a class="nav-link" href="{{ url_for('auth.logout') }}">Salir</a>
