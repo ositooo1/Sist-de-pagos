@@ -1,5 +1,6 @@
 ﻿from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, DecimalField, IntegerField
+from wtforms import (StringField, PasswordField, SubmitField, TextAreaField,
+                     DecimalField, IntegerField, SelectField)
 from wtforms.validators import (DataRequired, Email, EqualTo, Length, ValidationError,
                                 NumberRange, Optional, InputRequired)
 from app.models import Usuario
@@ -44,6 +45,18 @@ class EliminarForm(FlaskForm):
 
 
 class AccionForm(FlaskForm):
-    """Formulario vacío: solo aporta el token CSRF para acciones por POST
-    (agregar al carrito, quitar, confirmar y cancelar pedidos)."""
+    """Formulario vacío: solo aporta el token CSRF para acciones por POST."""
     pass
+
+
+class PagoForm(FlaskForm):
+    """Formulario del simulador de pago."""
+    metodo = SelectField("Método de pago",
+                         choices=[("tarjeta_credito", "Tarjeta de crédito"),
+                                  ("tarjeta_debito", "Tarjeta de débito"),
+                                  ("transferencia", "Transferencia"),
+                                  ("efectivo", "Efectivo")])
+    resultado = SelectField("Resultado a simular",
+                            choices=[("aprobado", "Pago aprobado"),
+                                     ("rechazado", "Pago rechazado")])
+    submit = SubmitField("Confirmar pago")

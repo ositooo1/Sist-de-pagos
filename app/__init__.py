@@ -22,10 +22,12 @@ def create_app():
     from app.routes.auth import auth_bp
     from app.routes.products import products_bp
     from app.routes.orders import orders_bp
+    from app.routes.payments import payments_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(products_bp)
     app.register_blueprint(orders_bp)
+    app.register_blueprint(payments_bp)
 
     with app.app_context():
         db.create_all()

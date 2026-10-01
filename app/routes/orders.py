@@ -120,7 +120,7 @@ def cancelar(id):
     pedido = db.get_or_404(Pedido, id)
     if pedido.usuario_id != current_user.id:
         abort(403)
-    if pedido.estado != "pendiente":
+    if pedido.estado not in ("pendiente", "rechazado"):
         flash("Solo se pueden cancelar pedidos pendientes.", "warning")
     else:
         for it in pedido.items:
@@ -129,3 +129,4 @@ def cancelar(id):
         db.session.commit()
         flash("Pedido cancelado.", "info")
     return redirect(url_for("orders.detalle", id=pedido.id))
+

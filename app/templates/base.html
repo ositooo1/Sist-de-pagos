@@ -15,6 +15,7 @@
             {% if current_user.is_authenticated %}
                 <a class="nav-link" href="{{ url_for('orders.carrito') }}">Carrito</a>
                 <a class="nav-link" href="{{ url_for('orders.listar') }}">Mis pedidos</a>
+                <a class="nav-link" href="{{ url_for('payments.listar') }}">Mis pagos</a>
                 <span class="navbar-text mx-3">Hola, {{ current_user.nombre }}</span>
                 <a class="nav-link" href="{{ url_for('auth.logout') }}">Salir</a>
             {% else %}

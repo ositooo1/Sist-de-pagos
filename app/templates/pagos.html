@@ -1,0 +1,25 @@
+﻿{% extends "base.html" %}
+{% block title %}Mis pagos{% endblock %}
+{% block content %}
+<h2>Mis pagos</h2>
+<table class="table table-striped align-middle">
+    <thead><tr><th>Fecha</th><th>Pedido</th><th>Tipo</th><th>Método</th><th>Monto</th><th>Estado</th><th>ID operación</th></tr></thead>
+    <tbody>
+    {% for pg in pagos %}
+        <tr>
+            <td>{{ pg.fecha.strftime("%d/%m/%Y %H:%M") }}</td>
+            <td><a href="{{ url_for('orders.detalle', id=pg.pedido_id) }}">#{{ pg.pedido_id }}</a></td>
+            <td>{{ pg.tipo }}</td>
+            <td>{{ pg.metodo }}</td>
+            <td>${{ "%.2f"|format(pg.monto) }}</td>
+            <td>
+                <span class="badge text-bg-{{ 'success' if pg.estado == 'aprobado' else 'danger' }}">{{ pg.estado }}</span>
+            </td>
+            <td><code>{{ pg.id_externo }}</code></td>
+        </tr>
+    {% else %}
+        <tr><td colspan="7" class="text-center text-muted">Todavía no hay pagos.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
