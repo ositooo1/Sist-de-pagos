@@ -1,0 +1,7 @@
+{% extends "base.html" %} {% block content %}
+<h1>Simulador de Pagos</h1>
+{% if current_user.is_authenticated %}
+<p>Sesión iniciada como <strong>{{ current_user.email }}</strong>.</p>
+{% else %}
+<p>Registrate o ingresá para empezar.</p>
+{% endif %} {% endblock %}
