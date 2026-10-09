@@ -23,16 +23,20 @@
     <tfoot><tr><th colspan="3" class="text-end">Total</th><th>${{ "%.2f"|format(pedido.total) }}</th></tr></tfoot>
 </table>
 
-<div class="mb-4">
+<div class="mb-4 d-flex flex-wrap gap-2 align-items-center">
 {% if pedido.estado in ("pendiente", "rechazado") %}
-    <a href="{{ url_for('payments.pagar', id=pedido.id) }}" class="btn btn-success">Pagar</a>
-    <form method="POST" action="{{ url_for('orders.cancelar', id=pedido.id) }}" class="d-inline"
+    <form method="POST" action="{{ url_for('payments.mp_iniciar', id=pedido.id) }}">
+        {{ form.hidden_tag() }}
+        <button class="btn btn-primary">Pagar con Mercado Pago</button>
+    </form>
+    <a href="{{ url_for('payments.pagar', id=pedido.id) }}" class="btn btn-success">Pagar (simulador)</a>
+    <form method="POST" action="{{ url_for('orders.cancelar', id=pedido.id) }}"
           onsubmit="return confirm('¿Cancelar el pedido?');">
         {{ form.hidden_tag() }}
         <button class="btn btn-outline-danger">Cancelar pedido</button>
     </form>
 {% elif pedido.estado == "pagado" %}
-    <form method="POST" action="{{ url_for('payments.reembolsar', id=pedido.id) }}" class="d-inline"
+    <form method="POST" action="{{ url_for('payments.reembolsar', id=pedido.id) }}"
           onsubmit="return confirm('¿Devolver este pedido?');">
         {{ form.hidden_tag() }}
         <button class="btn btn-outline-warning">Solicitar devolución</button>
